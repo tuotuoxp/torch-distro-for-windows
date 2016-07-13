@@ -16,6 +16,8 @@ Usage
 * Open VS2013 x64 Native Tools Command Prompt
 * Run following commands
 ``` sh
+git config --global core.autocrlf false
 git clone https://github.com/tuotuoxp/torch-distro-for-windows.git torch-win
+git config --global core.autocrlf true
 torch-win\install.bat c:\torch
 ```
