@@ -1,0 +1,13 @@
+diff --git a/rocks/signal-scm-1.rockspec b/rocks/signal-scm-1.rockspec
+index b9e14d6..61a2889 100644
+--- a/rocks/signal-scm-1.rockspec
++++ b/rocks/signal-scm-1.rockspec
+@@ -23,7 +23,7 @@ dependencies = {
+ build = {
+    type = "command",
+    build_command = [[
+-cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+    ]],
+    install_command = "cd build && $(MAKE) install"
+ }

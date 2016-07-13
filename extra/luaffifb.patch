@@ -1,0 +1,27 @@
+diff --git a/ffi.h b/ffi.h
+index dabdc9b..9ae74ec 100644
+--- a/ffi.h
++++ b/ffi.h
+@@ -42,8 +42,8 @@ extern "C" {
+ #include <sys/mman.h>
+ #endif
+ 
+-#include <complex.h>
+-#define HAVE_COMPLEX
++//#include <complex.h>
++//#define HAVE_COMPLEX
+ #define HAVE_LONG_DOUBLE
+ 
+ #ifndef NDEBUG
+diff --git a/luaffi-scm-1.rockspec b/luaffi-scm-1.rockspec
+index 42cea90..2788684 100644
+--- a/luaffi-scm-1.rockspec
++++ b/luaffi-scm-1.rockspec
+@@ -28,7 +28,6 @@ build = {
+             "call.c", "ctype.c", "ffi.c", "parser.c",
+          }
+       },
+-      ['ffi.libtest'] = 'test.c',
+       ['ffi.test'] = 'test.lua',
+    }
+ }

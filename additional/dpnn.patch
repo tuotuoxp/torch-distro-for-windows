@@ -1,0 +1,13 @@
+diff --git a/rocks/dpnn-scm-1.rockspec b/rocks/dpnn-scm-1.rockspec
+index b888e2e..d00fc62 100644
+--- a/rocks/dpnn-scm-1.rockspec
++++ b/rocks/dpnn-scm-1.rockspec
+@@ -24,7 +24,7 @@ dependencies = {
+ build = {
+    type = "command",
+    build_command = [[
+-cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUAROCKS_PREFIX)" -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUAROCKS_PREFIX)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+    ]],
+    install_command = "cd build && $(MAKE) install"
+ }

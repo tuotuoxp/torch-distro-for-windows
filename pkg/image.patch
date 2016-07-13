@@ -1,0 +1,13 @@
+diff --git a/image-1.1.alpha-0.rockspec b/image-1.1.alpha-0.rockspec
+index 99e84c1..2cd16c8 100644
+--- a/image-1.1.alpha-0.rockspec
++++ b/image-1.1.alpha-0.rockspec
+@@ -26,7 +26,7 @@ dependencies = {
+ build = {
+    type = "command",
+    build_command = [[
+-cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DLUA_INCDIR="$(LUA_INCDIR)" -DLUA_LIBDIR="$(LUA_LIBDIR)"  -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DLUA_INCDIR="$(LUA_INCDIR)" -DLUA_LIBDIR="$(LUA_LIBDIR)"  -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+    ]],
+    install_command = "cd build && $(MAKE) install"
+ }

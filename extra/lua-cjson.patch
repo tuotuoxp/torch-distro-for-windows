@@ -1,0 +1,14 @@
+diff --git a/lua-cjson-2.1devel-1.rockspec b/lua-cjson-2.1devel-1.rockspec
+index 154e333..2c6ebc1 100644
+--- a/lua-cjson-2.1devel-1.rockspec
++++ b/lua-cjson-2.1devel-1.rockspec
+@@ -48,6 +48,9 @@ build = {
+     platforms = {
+         win32 = { modules = { cjson = { defines = {
+             "DISABLE_INVALID_NUMBERS"
++            ,"strncasecmp=_strnicmp"
++            ,"snprintf=_snprintf"
++            ,"inline="
+         } } } }
+     },
+     copy_directories = { "tests" }

@@ -1,0 +1,30 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8ae8615..2c8e2c2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -45,3 +45,12 @@ endif()
+ IF(LUALIB)
+   TARGET_LINK_LIBRARIES(threadsmain ${LUALIB})
+ ENDIF()
++
++
++TARGET_LINK_LIBRARIES(threadsmain libluajit.lib dl.lib pthread.lib)
++TARGET_LINK_LIBRARIES(threads libluajit.lib dl.lib pthread.lib)
++
++ADD_DEFINITIONS(-Dsnprintf=_snprintf)
++ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
++ADD_DEFINITIONS(-DUSE_PTHREAD_THREADS)
++ADD_DEFINITIONS(-Drestrict=)
+diff --git a/lib/init.c b/lib/init.c
+index 318004d..8072120 100644
+--- a/lib/init.c
++++ b/lib/init.c
+@@ -26,7 +26,7 @@ static void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup)
+ #include "threads.c"
+ #include "queue.c"
+ 
+-int luaopen_libthreads(lua_State *L)
++__declspec(dllexport) int luaopen_libthreads(lua_State *L)
+ {
+   lua_newtable(L);
+   thread_init_pkg(L);

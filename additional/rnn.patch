@@ -1,0 +1,16 @@
+diff --git a/rocks/rnn-scm-1.rockspec b/rocks/rnn-scm-1.rockspec
+index bd8fc0d..8d23488 100644
+--- a/rocks/rnn-scm-1.rockspec
++++ b/rocks/rnn-scm-1.rockspec
+@@ -25,10 +25,7 @@ dependencies = {
+ build = {
+    type = "command",
+    build_command = [[
+-cmake -E make_directory build;
+-cd build;
+-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)"; 
+-$(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+    ]],
+    install_command = "cd build && $(MAKE) install"
+ }

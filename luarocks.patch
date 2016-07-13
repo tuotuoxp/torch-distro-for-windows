@@ -1,0 +1,12 @@
+diff --git a/luarocks/src/luarocks/cfg.lua b/luarocks/src/luarocks/cfg.lua
+index b7a3cbd..d92f532 100644
+--- a/luarocks/src/luarocks/cfg.lua
++++ b/luarocks/src/luarocks/cfg.lua
+@@ -407,6 +407,7 @@ if cfg.platforms.windows then
+    defaults.variables.LUA_LIBDIR = site_config.LUA_LIBDIR and site_config.LUA_LIBDIR:gsub("\\", "/") or "c:/lua"..cfg.lua_version.."/lib"
+ 
+    defaults.makefile = "Makefile.win"
++   defaults.cmake_generator = "NMake Makefiles"
+    defaults.variables.MAKE = "nmake"
+    defaults.variables.CC = "cl"
+    defaults.variables.RC = "rc"

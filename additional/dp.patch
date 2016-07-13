@@ -1,0 +1,13 @@
+diff --git a/rocks/dp-scm-1.rockspec b/rocks/dp-scm-1.rockspec
+index eeaffca..a5acb31 100644
+--- a/rocks/dp-scm-1.rockspec
++++ b/rocks/dp-scm-1.rockspec
+@@ -33,7 +33,7 @@ dependencies = {
+ build = {
+    type = "command",
+    build_command = [[
+-cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+    ]],
+    install_command = "cd build && $(MAKE) install"
+ }

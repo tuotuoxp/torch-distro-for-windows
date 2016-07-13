@@ -1,0 +1,13 @@
+diff --git a/rocks/torch-scm-1.rockspec b/rocks/torch-scm-1.rockspec
+index 2228726..42700b4 100644
+--- a/rocks/torch-scm-1.rockspec
++++ b/rocks/torch-scm-1.rockspec
+@@ -27,7 +27,7 @@ cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release
+ 	 platforms = {
+       windows = {
+            build_command = [[
+-cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DLUA=$(LUA) -DLUALIB=$(LUALIB) -DLUA_BINDIR="$(LUA_BINDIR)" -DLUA_INCDIR="$(LUA_INCDIR)" -DLUA_LIBDIR="$(LUA_LIBDIR)" -DLUADIR="$(LUADIR)" -DLIBDIR="$(LIBDIR)" -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DLUA=$(LUA) -DLUALIB=$(LUALIB) -DLUA_BINDIR="$(LUA_BINDIR)" -DLUA_INCDIR="$(LUA_INCDIR)" -DLUA_LIBDIR="$(LUA_LIBDIR)" -DLUADIR="$(LUADIR)" -DLIBDIR="$(LIBDIR)" -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+ ]]
+       }
+    },

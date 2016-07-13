@@ -1,0 +1,12 @@
+diff --git a/sys-1.1-0.rockspec b/sys-1.1-0.rockspec
+index c362988..f300aed 100644
+--- a/sys-1.1-0.rockspec
++++ b/sys-1.1-0.rockspec
+@@ -20,6 +20,6 @@ dependencies = {
+ 
+ build = {
+    type = "command",
+-   build_command = [[cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE)]],
++   build_command = [[cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -DCMAKE_PREFIX_PATH="$(LUAROCKS_PREFIX)/.." -G "NMake Makefiles" && $(MAKE)]],
+    install_command = "cd build && $(MAKE) install"
+ }

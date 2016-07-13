@@ -1,0 +1,13 @@
+diff --git a/rocks/cunnx-scm-1.rockspec b/rocks/cunnx-scm-1.rockspec
+index fc39c55..96c45c5 100644
+--- a/rocks/cunnx-scm-1.rockspec
++++ b/rocks/cunnx-scm-1.rockspec
+@@ -24,7 +24,7 @@ dependencies = {
+ build = {
+    type = "command",
+    build_command = [[
+-cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+ ]],
+    install_command = "cd build && $(MAKE) install"
+ }

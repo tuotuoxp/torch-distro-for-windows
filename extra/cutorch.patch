@@ -1,0 +1,119 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1808044..5a53b0c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,6 +13,10 @@ ENDIF (NOT WIN32)
+ 
+ INCLUDE_DIRECTORIES(${CUDA_INCLUDE_DIRS})
+ 
++SET(THC_INSTALL_BIN_SUBDIR "install" CACHE PATH "THC install binary subdirectory")
++SET(THC_INSTALL_LIB_SUBDIR "install" CACHE PATH "THC install library subdirectory")
++SET(THC_INSTALL_INCLUDE_SUBDIR "install/include" CACHE PATH "THC install include subdirectory")
++
+ ADD_SUBDIRECTORY(lib)
+ 
+ INCLUDE_DIRECTORIES(BEFORE "${CMAKE_CURRENT_BINARY_DIR}/lib/THC")
+diff --git a/lib/THC/THCDeviceTensor-inl.cuh b/lib/THC/THCDeviceTensor-inl.cuh
+index a0058ad..53fccb9 100644
+--- a/lib/THC/THCDeviceTensor-inl.cuh
++++ b/lib/THC/THCDeviceTensor-inl.cuh
+@@ -24,6 +24,7 @@ THCDeviceTensor<T, Dim, IndexT, PtrTraits>::THCDeviceTensor()
+   }
+ }
+ 
++/*
+ template <typename T, int Dim,
+           typename IndexT, template <typename U> class PtrTraits>
+ __host__ __device__
+@@ -55,6 +56,7 @@ THCDeviceTensor<T, Dim, IndexT, PtrTraits>::THCDeviceTensor(
+     stride_[i] = strides[i];
+   }
+ }
++*/
+ 
+ template <typename T, int Dim,
+           typename IndexT, template <typename U> class PtrTraits>
+diff --git a/lib/THC/THCDeviceTensor.cuh b/lib/THC/THCDeviceTensor.cuh
+index 14d56c6..4b72928 100644
+--- a/lib/THC/THCDeviceTensor.cuh
++++ b/lib/THC/THCDeviceTensor.cuh
+@@ -70,12 +70,32 @@ class THCDeviceTensor {
+ 
+   /// Constructor that calculates strides with no padding
+   __host__ __device__ THCDeviceTensor(DataPtrType data,
+-                                      const IndexT sizes[Dim]);
++                                      const IndexT sizes[Dim])
++    : data_(data) {
++  thc_static_assert(Dim > 0);
++
++  for (int i = 0; i < Dim; ++i) {
++    size_[i] = sizes[i];
++  }
++
++  stride_[Dim - 1] = (IndexT) 1;
++  for (int i = Dim - 2; i >= 0; --i) {
++    stride_[i] = stride_[i + 1] * sizes[i + 1];
++  }
++}
+ 
+   /// Constructor that takes arbitrary size/stride arrays
+   __host__ __device__ THCDeviceTensor(DataPtrType data,
+                                       const IndexT sizes[Dim],
+-                                      const IndexT strides[Dim]);
++                                      const IndexT strides[Dim])
++    : data_(data) {
++  thc_static_assert(Dim > 0);
++
++  for (int i = 0; i < Dim; ++i) {
++    size_[i] = sizes[i];
++    stride_[i] = strides[i];
++  }
++}
+ 
+   /// Returns true if the two tensors are of the same dimensionality,
+   /// size and stride.
+diff --git a/lib/THC/THCHalf.h b/lib/THC/THCHalf.h
+index d87647b..955b1b1 100644
+--- a/lib/THC/THCHalf.h
++++ b/lib/THC/THCHalf.h
+@@ -18,10 +18,10 @@
+ #include <cuda_fp16.h>
+ #include <stdint.h>
+ 
+-THC_EXTERNC void THCFloat2Half(THCState *state, half *out, float *in, long len);
+-THC_EXTERNC void THCHalf2Float(THCState *state, float *out, half *in, long len);
+-THC_EXTERNC half THC_float2half(float a);
+-THC_EXTERNC float THC_half2float(half a);
++THC_API void THCFloat2Half(THCState *state, half *out, float *in, long len);
++THC_API void THCHalf2Float(THCState *state, float *out, half *in, long len);
++THC_API half THC_float2half(float a);
++THC_API float THC_half2float(half a);
+ 
+ #endif // CUDA_HALF_TENSOR
+ 
+diff --git a/lib/THC/THCTensorTypeUtils.cuh b/lib/THC/THCTensorTypeUtils.cuh
+index 4456f47..82453ae 100644
+--- a/lib/THC/THCTensorTypeUtils.cuh
++++ b/lib/THC/THCTensorTypeUtils.cuh
+@@ -33,7 +33,7 @@ struct TensorUtils {
+ 
+ #define TENSOR_UTILS(TENSOR_TYPE, DATA_TYPE)                            \
+   template <>                                                           \
+-  struct TensorUtils<TENSOR_TYPE> {                                     \
++  struct __declspec(dllexport) TensorUtils<TENSOR_TYPE> {               \
+     typedef DATA_TYPE DataType;                                         \
+                                                                         \
+     static TENSOR_TYPE* newTensor(THCState* state);                     \
+diff --git a/rocks/cutorch-scm-1.rockspec b/rocks/cutorch-scm-1.rockspec
+index 605588c..eec6e5d 100644
+--- a/rocks/cutorch-scm-1.rockspec
++++ b/rocks/cutorch-scm-1.rockspec
+@@ -25,7 +25,7 @@ cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DCMAKE
+ 	platforms = {
+       windows = {
+    build_command = [[
+-cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE) install
++cmake -E make_directory build && cd build && cmake .. -DLUALIB=$(LUALIB) -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE) install
+ ]]
+ 	  }
+    },

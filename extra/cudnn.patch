@@ -1,0 +1,36 @@
+diff --git a/cudnn-scm-1.rockspec b/cudnn-scm-1.rockspec
+index bc36117..ed90bd2 100644
+--- a/cudnn-scm-1.rockspec
++++ b/cudnn-scm-1.rockspec
+@@ -24,7 +24,7 @@ dependencies = {
+ build = {
+    type = "command",
+    build_command = [[
+-cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" && $(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+ ]],
+    install_command = "cd build && $(MAKE) install"
+ }
+\ No newline at end of file
+diff --git a/ffi.lua b/ffi.lua
+index 2a589a8..d337d6a 100644
+--- a/ffi.lua
++++ b/ffi.lua
+@@ -1588,7 +1588,7 @@ cudnnStatus_t             cudnnActivationBackward_v4(
+ 
+ ]]
+ 
+-local libnames = {'libcudnn.so.5', 'libcudnn.5.dylib'}
++local libnames = {'libcudnn.dll'}
+ local ok = false
+ for i=1,#libnames do
+    ok = pcall(function () cudnn.C = ffi.load(libnames[i]) end)
+@@ -1599,7 +1599,7 @@ if not ok then
+    print(err)
+    error([['libcudnn (R5) not found in library path.
+ Please install CuDNN from https://developer.nvidia.com/cuDNN
+-Then make sure files named as libcudnn.so.5 or libcudnn.5.dylib are placed in your library load path (for example /usr/local/lib , or manually add a path to LD_LIBRARY_PATH)
++Then make sure files named libcudnn.dll are placed in your library load path (for example C:\torch , or manually add a path to LD_LIBRARY_PATH)
+ ]])
+ end
+ 

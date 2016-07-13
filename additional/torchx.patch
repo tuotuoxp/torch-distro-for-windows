@@ -1,0 +1,18 @@
+diff --git a/torchx-scm-1.rockspec b/torchx-scm-1.rockspec
+index c393246..eee8d00 100644
+--- a/torchx-scm-1.rockspec
++++ b/torchx-scm-1.rockspec
+@@ -23,12 +23,7 @@ dependencies = {
+ build = {
+    type = "command",
+    build_command = [[
+-git submodule init
+-git submodule update
+-cmake -E make_directory build;
+-cd build;
+-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)"; 
+-$(MAKE)
++cmake -E make_directory build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$(LUA_BINDIR)/.." -DCMAKE_INSTALL_PREFIX="$(PREFIX)" -G "NMake Makefiles" && $(MAKE)
+    ]],
+    install_command = "cd build && $(MAKE) install"
+ }
